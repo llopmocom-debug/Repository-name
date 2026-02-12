@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>Карта БПЛА України</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+<style>
+#map { height: 100vh; }
+button {
+position: absolute;
+top: 10px;
+right: 10px;
+z-index: 1000;
+padding: 10px;
+background: red;
+color: white;
+border: none;
+}
+</style>
+</head>
+<body>
+
+<button onclick="clearMap()">Очистити карту</button>
+<div id="map"></div>
+
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<script>
+var map = L.map('map').setView([49.0, 31.0], 6);
+
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+maxZoom: 19,
+}).addTo(map);
+
+var markers = [];
+
+map.on('click', function(e) {
+var marker = L.marker(e.latlng).addTo(map);
+markers.push(marker);
+
+setTimeout(function(){
+map.removeLayer(marker);
+}, 600000);
+});
+
+function clearMap() {
+markers.forEach(function(marker){
+map.removeLayer(marker);
+});
+markers = [];
+}
+</script>
+
+</body>
+  </html>
